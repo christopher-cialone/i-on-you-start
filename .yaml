@@ -1,6 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Decentralized Reputation System API
+  title: I On You Review 
+  Decentralized Reputation System API
   description: API for interacting with the decentralized reputation system, including business queries, review submissions, and reward claims.
   version: 1.0.0
 servers:
