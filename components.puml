@@ -24,7 +24,7 @@ package "User Interface" {
     [API Gateway]
 }
 
-[Smart Contracts] --> [Transaction Logs] : Stores review transactions
+[Smart Contracts] --> [Transaction Logs] : Stores review transactions 
 [Smart Contracts] --> [User Profiles] : Stores and manages user DIDs/NFTs
 [Smart Contracts] --> [Company Profiles] : Stores company data links
 [Smart Contracts] --> [Data Storage] : Stores IPFS Hashes
