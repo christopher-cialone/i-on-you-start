@@ -1,0 +1,41 @@
+@startuml
+!theme amiga
+
+package "Avalanche Blockchain" {
+    [Smart Contracts] <<Database>>
+    [Transaction Logs] <<Database>>
+    [User Profiles] <<Database>>
+    [Company Profiles] <<Database>>
+}
+
+package "External Data (via Chainlink)" {
+    [Chainlink Oracles]
+    [VRF]
+    [Off-chain APIs]
+}
+
+package "IPFS" {
+    [Data Storage] <<Database>>
+    [Pinata Pinning]
+}
+
+package "User Interface" {
+    [React Frontend]
+    [API Gateway]
+}
+
+[Smart Contracts] --> [Transaction Logs] : Stores review transactions
+[Smart Contracts] --> [User Profiles] : Stores and manages user DIDs/NFTs
+[Smart Contracts] --> [Company Profiles] : Stores company data links
+[Smart Contracts] --> [Data Storage] : Stores IPFS Hashes
+
+[API Gateway] --> [Smart Contracts] : Interacts for transactions
+[API Gateway] --> [Data Storage] : Retrieves business data
+[Chainlink Oracles] --> [Smart Contracts] : Feeds external data
+[VRF] --> [Smart Contracts] : Ensures data integrity
+[Chainlink Oracles] --> [Off-chain APIs] : Retrieves external data for smart contracts
+
+[React Frontend] --> [API Gateway] : Sends user queries and displays responses
+[Data Storage] -.-> [Pinata Pinning] : Ensures data availability
+
+@enduml
