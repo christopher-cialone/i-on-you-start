@@ -1,0 +1,146 @@
+openapi: 3.0.0
+info:
+  title: Decentralized Reputation System API
+  description: API for interacting with the decentralized reputation system, including business queries, review submissions, and reward claims.
+  version: 1.0.0
+servers:
+  - url: https://api.yourdapp.com/v1
+    description: Main Production Server
+paths:
+  /businesses/{id}:
+    get:
+      summary: Retrieve detailed information about a business
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the business
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Business'
+        '404':
+          description: Business not found
+
+  /reviews:
+    post:
+      summary: Submit a review for a business
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewSubmission'
+      responses:
+        '201':
+          description: Review submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  reviewId:
+                    type: string
+        '400':
+          description: Invalid input, object invalid
+
+  /reviews/business/{id}:
+    get:
+      summary: Fetch all reviews for a specific business
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Unique identifier for the business
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review'
+
+  /rewards/claim:
+    post:
+      summary: Claim tokenized rewards based on user feedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RewardClaim'
+      responses:
+        '200':
+          description: Reward claimed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  transactionDetails:
+                    type: object
+        '403':
+          description: Forbidden - not authorized to claim rewards
+
+components:
+  schemas:
+    Business:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        values:
+          type: string
+        mission:
+          type: string
+        politicalDonations:
+          type: string
+    ReviewSubmission:
+      type: object
+      properties:
+        userId:
+          type: string
+        businessId:
+          type: string
+        content:
+          type: string
+        rating:
+          type: integer
+    Review:
+      type: object
+      properties:
+        userId:
+          type: string
+        businessId:
+          type: string
+        content:
+          type: string
+        rating:
+          type: integer
+        timestamp:
+          type: string
+          format: date-time
+    RewardClaim:
+      type: object
+      properties:
+        businessId:
+          type: string
+        reviewIds:
+          type: array
+          items:
+            type: string
